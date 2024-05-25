@@ -9,7 +9,7 @@ DOCTORS = {
 }
 
 USERS = {
-    "oleg", "nick", "leon"
+    "nick", "leon"
 }
 
 
@@ -25,7 +25,7 @@ def bot(message, history):
         history_for_mistral.append(ChatMessage(role="assistant", content=assistant))
     history_for_mistral.append(ChatMessage(role="user", content=message))
 
-    return rag_question("oleg", history_for_mistral)
+    return rag_question(CurrentUser.name, history_for_mistral)
 
 
 def test(request: gr.Request):
@@ -41,7 +41,7 @@ def do_auth(username, password):
         CurrentUser.is_doctor = False
         return True
 
-    return True
+    return False
 
 gradio_app = gr.ChatInterface(
     bot,

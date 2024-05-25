@@ -8,7 +8,7 @@ DOCTORS = {
 }
 
 USERS = {
-    "oleg", "nick", "leon"
+    "nick", "leon"
 }
 
 
@@ -18,7 +18,7 @@ class CurrentUser:
     menu_added = False
 
 def bot(message, history):
-    return rag_question("oleg", message)
+    return rag_question(CurrentUser.name, message)
 
 
 def test(request: gr.Request):
@@ -48,6 +48,9 @@ gradio_app = gr.ChatInterface(
     retry_btn=None,
     undo_btn="Delete Previous",
     clear_btn="Clear",
+    additional_inputs=[
+        gr.UploadButton(),
+    ]
 )
 
 
