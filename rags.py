@@ -110,11 +110,5 @@ Given the context information and not prior knowledge, awnser the user query.
 
     return answer
 
-
-prepare_data()
-
-if __name__ == "__main__":
-    rag_question("oleg", question = "Can I drink Vodka today or why not?")
-    rag_question("oleg", question = "what drugs do I need to drink today?")
-    rag_question("nick", question = "Can I drink Vodka today or why not?")
-    rag_question("nick", question = "what drugs do I need to drink today?")
+if len(INDEXES) < 1:
+    prepare_data()
