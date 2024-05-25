@@ -1,6 +1,6 @@
 import gradio as gr
 
-from rags import rag_question
+from rags import rag_question, prepare_data
 from app import USERS
 
 DOCTORS = {
@@ -32,11 +32,14 @@ def do_auth(username, password):
 
     return False
 
-def upload_file(filepath):
-    print(filepath)
+def upload_file(file):
+    print(type(file))
+    if isinstance(file, str):
+        bts = open(file, "rb").read()
     import random
     with open(f"data/{UploadUser.name}/{random.randint(1, 2**32)}.txt", "wb") as f:
-        f.write(filepath)
+        f.write(bts)
+        prepare_data()
     print(f"upload file")
 
 
@@ -60,9 +63,9 @@ with gr.ChatInterface(
 
     ]
 ) as gradio_app:
-    u = gr.File("Upload medical document", file_count="single")
+    u = gr.UploadButton("Upload medical document", file_count="single")
     d = gr.Dropdown(list(USERS))
-    u.upload(upload_file, u, [u, d])
+    u.upload(upload_file, u, )
     d.change(change_upload_user, d, )
 
 

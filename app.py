@@ -23,10 +23,6 @@ def bot(message, history):
     return rag_question(CurrentUser.name, history_for_mistral)
 
 
-def test(request: gr.Request):
-    return gr.UploadButton("Add more medical files " + request.username)
-
-
 def do_auth(username, password):
     CurrentUser.name = username
     if username in USERS:
