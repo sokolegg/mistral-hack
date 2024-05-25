@@ -8,7 +8,7 @@ DOCTORS = {
 }
 
 USERS = {
-    "oleg", "nick"
+    "oleg", "nick", "leon"
 }
 
 
@@ -34,7 +34,7 @@ def do_auth(username, password):
         CurrentUser.is_doctor = False
         return True
 
-    return False
+    return True
 
 gradio_app = gr.ChatInterface(
     bot,
