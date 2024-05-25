@@ -38,13 +38,13 @@ def do_auth(username, password):
 
 gradio_app = gr.ChatInterface(
     bot,
-    chatbot=gr.Chatbot(height=600),
+    chatbot=gr.Chatbot(height=400),
     textbox=gr.Textbox(placeholder="Ask me any medical question", container=False, scale=7),
     title="Project Alice 👩‍⚕️",
     description="Ask me any health question",
     theme="soft",
     examples=["What tablets do I need to drink?", "Can I drink alcohol?", ],
-    cache_examples=True,
+    cache_examples=False,
     retry_btn=None,
     undo_btn="Delete Previous",
     clear_btn="Clear",
