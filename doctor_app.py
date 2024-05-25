@@ -63,8 +63,8 @@ with gr.ChatInterface(
 
     ]
 ) as gradio_app:
-    u = gr.UploadButton("Upload medical document", file_count="single")
     d = gr.Dropdown(list(USERS))
+    u = gr.UploadButton("Upload medical document", file_count="single")
     u.upload(upload_file, u, )
     d.change(change_upload_user, d, )
 
