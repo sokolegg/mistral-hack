@@ -1,6 +1,7 @@
 import gradio as gr
 
 from rags import rag_question
+from mistralai.models.chat_completion import ChatMessage
 
 
 DOCTORS = {
@@ -8,7 +9,7 @@ DOCTORS = {
 }
 
 USERS = {
-    "oleg", "nick"
+    "oleg", "nick", "leon"
 }
 
 
@@ -18,7 +19,13 @@ class CurrentUser:
     menu_added = False
 
 def bot(message, history):
-    return rag_question("oleg", message)
+    history_for_mistral = []
+    for human, assistant in history:
+        history_for_mistral.append(ChatMessage(role="user", content=human))
+        history_for_mistral.append(ChatMessage(role="assistant", content=assistant))
+    history_for_mistral.append(ChatMessage(role="user", content=message))
+
+    return rag_question("oleg", history_for_mistral)
 
 
 def test(request: gr.Request):

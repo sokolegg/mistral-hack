@@ -8,7 +8,7 @@ DOCTORS = {
 }
 
 USERS = {
-    "oleg", "nick"
+    "oleg", "nick", "leon"
 }
 
 

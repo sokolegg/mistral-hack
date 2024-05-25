@@ -1,11 +1,10 @@
 from typing import List
-from mistralai.client import MistralClient
 import numpy as np
 import os
-import requests
 import faiss
 import os
 from datetime import datetime
+from mistralai.models.chat_completion import ChatCompletionResponse, ChatMessage
 
 
 from mistral import client, run_mistral
@@ -87,26 +86,27 @@ def prepare_data():
                 doc_embs = np.vstack([get_text_embedding(chunk) for chunk in doc_chunks])
                 add_embeddings(user, doc_chids, doc_embs)
 
-def rag_question(username: str, question: str):
-
-
-    similars = search_similar_chunks(username, question)
+def rag_question(username: str, context: ChatCompletionResponse):
+    similars = search_similar_chunks(username, context[-1].content)
     retrieved_chunk  = " ".join(similars)
 
-    prompt = f"""
-    Username: {username}
-    Current date: {get_current_dt()}
-    Context information is below.
-    ---------------------
-    {retrieved_chunk}
-    ---------------------
-    Given the context information and not prior knowledge, answer the query.
-    Query: {question}
-    Answer:
-    """
+    system_prompt = f"""\
+You are Alice, a friendly medical doctor. Act friendly with your patient 😊 he is like your best friend.
+Be really concise and clear in your responses. You can use emojis to make the conversation more engaging.
+Be informal in your responses, you are texting each other, be casual.
 
-    answer = run_mistral(prompt)
-    print(answer)
+Your patient is {username} and here is medical informations:
+{retrieved_chunk}
+There is no other information about the patient, the data is correct and up to date.
+
+Current date: {get_current_dt()}
+Given the context information and not prior knowledge, awnser the user query.
+"""
+
+    context.insert(0, ChatMessage(role="system", content=system_prompt))
+
+    answer = run_mistral(system_prompt, context)
+    print(f"Mistral answer: {answer}")
 
     return answer
 
