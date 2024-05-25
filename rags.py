@@ -12,8 +12,9 @@ CHUNK_TO_ID = {}
 ID_TO_CHUNK = {}
 
 EMB_SHAPE = 1024
+CHUNK_SIZE = 32
 
-def split_text_into_chunks(text: str, chunk_size: int = 2048):
+def split_text_into_chunks(text: str, chunk_size: int = CHUNK_SIZE):
     chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
     chids = []
     for chunk in chunks:
@@ -48,6 +49,7 @@ def get_index(username: str):
 
 def add_embeddings(username: str, chids: List[int], emb: np.ndarray):
     ind = get_index(username)
+    print(emb.shape)
     ind.add(emb)
     INDEXES[username] = ind
 
@@ -71,7 +73,7 @@ if __name__ == "__main__":
             with open(doc_path, "r") as f:
                 doc_text = f.read()
                 doc_chunks, doc_chids = split_text_into_chunks(doc_text)
-                doc_embs = np.hstack([get_text_embedding(chunk) for chunk in doc_chunks])
+                doc_embs = np.vstack([get_text_embedding(chunk) for chunk in doc_chunks])
                 add_embeddings(user, doc_chids, doc_embs)
 
     question = "Can I drink Vodka today or why not?"
