@@ -56,4 +56,4 @@ gradio_app = gr.ChatInterface(
 
 
 if __name__ == "__main__":
-    gradio_app.launch(auth=do_auth)
+    gradio_app.launch(auth=do_auth, server_port=7789)
