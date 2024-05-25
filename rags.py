@@ -4,6 +4,9 @@ import numpy as np
 import os
 import requests
 import faiss
+import os
+from datetime import datetime
+
 
 from mistral import client, run_mistral
 
@@ -63,8 +66,15 @@ def search_similar_chunks(username: str, question: str):
     return retrieved_chunk
 
 
-if __name__ == "__main__":
-    import os
+def get_current_dt():
+    # datetime object containing current date and time
+    now = datetime.now()
+    # dd/mm/YY H:M:S
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    return dt_string
+
+
+def prepare_data():
     users = os.listdir("data/")
     for user in users:
         user_dir = f"data/{user}/"
@@ -76,11 +86,15 @@ if __name__ == "__main__":
                 doc_embs = np.vstack([get_text_embedding(chunk) for chunk in doc_chunks])
                 add_embeddings(user, doc_chids, doc_embs)
 
-    question = "Can I drink Vodka today or why not?"
-    similars = search_similar_chunks("oleg", question)
+def rag_question(username: str, question: str):
+
+
+    similars = search_similar_chunks(username, question)
     retrieved_chunk  = " ".join(similars)
 
     prompt = f"""
+    Username: {username}
+    Current date: {get_current_dt()}
     Context information is below.
     ---------------------
     {retrieved_chunk}
@@ -92,3 +106,12 @@ if __name__ == "__main__":
 
     answer = run_mistral(prompt)
     print(answer)
+
+    return answer
+
+
+if __name__ == "__main__":
+
+    prepare_data()
+    rag_question("oleg", question = "Can I drink Vodka today or why not?")
+    rag_question("oleg", question = "what drugs do I need to drink today?")
