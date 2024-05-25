@@ -49,7 +49,8 @@ gradio_app = gr.ChatInterface(
     undo_btn="Delete Previous",
     clear_btn="Clear",
     additional_inputs=[
-        gr.UploadButton(),
+        gr.UploadButton("Upload medical document"),
+        gr.Dropdown("User: ", list(USERS)),
     ]
 )
 
