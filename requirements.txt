@@ -2,3 +2,6 @@ requests
 mistralai
 faiss-cpu
 gradio
+packaging
+transformers
+torch
