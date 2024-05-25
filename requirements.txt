@@ -1,0 +1,3 @@
+requests
+mistralai
+faiss-cpu
