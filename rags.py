@@ -15,7 +15,7 @@ EMB_SHAPE = 1024
 CHUNK_SIZE = 32
 
 def split_text_into_chunks(text: str, chunk_size: int = CHUNK_SIZE):
-    chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+    chunks = text.split(". ")
     chids = []
     for chunk in chunks:
         chid = len(CHUNK_TO_ID)
