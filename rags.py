@@ -16,6 +16,7 @@ ID_TO_CHUNK = {}
 
 EMB_SHAPE = 1024
 CHUNK_SIZE = 32
+K_SEARCH = 16
 
 def split_text_into_chunks(text: str, chunk_size: int = CHUNK_SIZE):
     chunks = text.split(". ")
@@ -59,7 +60,7 @@ def add_embeddings(username: str, chids: List[int], emb: np.ndarray):
 def search_similar_chunks(username: str, question: str):
     ind = get_index(username)
     question_embeddings = np.array([get_text_embedding(question)])
-    D, I = ind.search(question_embeddings[0], k=2)  # distance, index
+    D, I = ind.search(question_embeddings[0], k=K_SEARCH)  # distance, index
     print(D, I)
     retrieved_chunk = [ID_TO_CHUNK[chid] for chid in I.tolist()[0] if chid >= 0]
     print(f"found chunks in docs {retrieved_chunk}")
@@ -115,3 +116,5 @@ if __name__ == "__main__":
     prepare_data()
     rag_question("oleg", question = "Can I drink Vodka today or why not?")
     rag_question("oleg", question = "what drugs do I need to drink today?")
+    rag_question("nick", question = "Can I drink Vodka today or why not?")
+    rag_question("nick", question = "what drugs do I need to drink today?")
