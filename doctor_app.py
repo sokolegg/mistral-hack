@@ -1,8 +1,9 @@
 import gradio as gr
 
 from rags import rag_question
+from app import USERS
 
-USERS = {
+DOCTORS = {
     "victoria", "johnson", "admin"
 }
 
@@ -25,7 +26,7 @@ def test(request: gr.Request):
 
 def do_auth(username, password):
     CurrentUser.name = username
-    if username in USERS:
+    if username in DOCTORS:
         CurrentUser.is_doctor = False
         return True
 
