@@ -111,9 +111,9 @@ def rag_question(username: str, question: str):
     return answer
 
 
-if __name__ == "__main__":
+prepare_data()
 
-    prepare_data()
+if __name__ == "__main__":
     rag_question("oleg", question = "Can I drink Vodka today or why not?")
     rag_question("oleg", question = "what drugs do I need to drink today?")
     rag_question("nick", question = "Can I drink Vodka today or why not?")
