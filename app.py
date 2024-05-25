@@ -3,11 +3,6 @@ import gradio as gr
 from rags import rag_question
 from mistralai.models.chat_completion import ChatMessage
 
-
-DOCTORS = {
-    "victoria",
-}
-
 USERS = {
     "nick", "leon"
 }
@@ -34,9 +29,6 @@ def test(request: gr.Request):
 
 def do_auth(username, password):
     CurrentUser.name = username
-    if username in DOCTORS:
-        CurrentUser.is_doctor = True
-        return True
     if username in USERS:
         CurrentUser.is_doctor = False
         return True
