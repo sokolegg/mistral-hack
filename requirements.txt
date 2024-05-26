@@ -2,6 +2,7 @@ requests
 mistralai
 faiss-cpu
 gradio
+gradio_calendar
 packaging
 transformers
 torch
