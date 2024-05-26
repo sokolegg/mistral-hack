@@ -1,5 +1,5 @@
 import gradio as gr
-
+from gradio_calendar import Calendar
 from rags import rag_question, prepare_data
 from app import USERS
 
@@ -46,29 +46,22 @@ def upload_file(file):
 def change_upload_user(username):
     UploadUser.name = username
 
-
 with gr.ChatInterface(
     bot,
     chatbot=gr.Chatbot(height=400),
     textbox=gr.Textbox(placeholder="Ask me any medical question", container=False, scale=7),
-    title="Project Alice 👩‍⚕️",
-    description="Ask me any health question",
-    theme="soft",
     examples=["What tablets do I need to drink?", "Can I drink alcohol?", ],
     cache_examples=False,
     retry_btn=None,
     undo_btn="Delete Previous",
     clear_btn="Clear",
-    additional_inputs=[
-
-    ]
+    additional_inputs=[]
 ) as gradio_app:
-    d = gr.Dropdown(list(USERS))
+    calendar = Calendar(type="datetime", label="Your medication", info="Click the calendar icon to bring up the calendar.")
+    d= gr.Dropdown(list(USERS))
     u = gr.UploadButton("Upload medical document", file_count="single")
     u.upload(upload_file, u, )
-    d.change(change_upload_user, d, )
-
-
+    d.change(change_upload_user, d)
 
 if __name__ == "__main__":
     gradio_app.launch(auth=do_auth, server_port=7789)
