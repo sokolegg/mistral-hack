@@ -1,4 +1,5 @@
 import gradio as gr
+import weave
 
 from rags import rag_question
 from mistralai.models.chat_completion import ChatMessage

@@ -1,7 +1,5 @@
-requests
-mistralai
-faiss-cpu
 gradio
-packaging
-transformers
-torch
+mistralai
+typing
+numpy
+faiss-gpu
